@@ -36,11 +36,11 @@ jobs:
         with:
           reports: "**/*.cobertura.xml"
           targetdir: "${{ github.workspace }}"
-          reporttypes: "Cobertura" 
-          verbosity: "Info" 
+          reporttypes: "Cobertura"
+          verbosity: "Info"
           title: "Code Coverage"
           tag: "${{ github.run_number }}_${{ github.run_id }}"
-          customSettings: "" 
+          customSettings: ""
           toolpath: "reportgeneratortool"
       - name: upload report
         uses: actions/upload-artifact@v4
@@ -59,7 +59,7 @@ jobs:
           hide_complexity: false
           indicators: true
           output: both
-          thresholds: "10 30" 
+          thresholds: "10 30"
       - name: comment on pull request
         uses: marocchino/sticky-pull-request-comment@v2
         if: github.event_name == 'pull_request'
@@ -73,8 +73,8 @@ jobs:
           path: ${{ github.workspace }}/**/TestResults/**/*
           retention-days: 5
       - name: publish test results
-        uses: EnricoMi/publish-unit-test-result-action@v2.16.1
-        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2.17.0
+        if: ${{ runner.os == 'ubuntu-latest'}} & always()
         with:
           # NOTE: using trx_files instead of files due to https://github.com/EnricoMi/publish-unit-test-result-action/issues/424
-          trx_files: "${{ github.workspace }}/**/*.trx"
+          files: ${{ github.workspace }}/**/*.trx
