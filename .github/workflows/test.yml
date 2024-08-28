@@ -8,6 +8,9 @@ jobs:
   test:
     name: test
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
