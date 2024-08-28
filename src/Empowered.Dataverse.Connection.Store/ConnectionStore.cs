@@ -78,7 +78,6 @@ internal class ConnectionStore : IConnectionStore
         return hasActiveConnection;
     }
 
-
     public void Upsert(IDataverseConnection connection, bool useConnection = false)
     {
         var wallet = _walletFileService.ReadWallet();
