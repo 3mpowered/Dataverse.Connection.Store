@@ -18,14 +18,13 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.x
-          cache: true
-      # - name: cache packages
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ~/.nuget/packages
-      #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-nuget-
+      - name: cache packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
       - name: restore dependencies
         run: dotnet restore --locked-mode
       - name: build
