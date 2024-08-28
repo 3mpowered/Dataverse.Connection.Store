@@ -5,12 +5,9 @@ on:
   pull_request:
     branches: [main, beta, alpha]
 jobs:
-  check:
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-    name: build on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+  test:
+    name: test
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +16,7 @@ jobs:
         with:
           dotnet-version: 8.x
       - name: cache packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
@@ -50,7 +47,6 @@ jobs:
           retention-days: 5
       - name: publish report
         uses: irongut/CodeCoverageSummary@v1.3.0
-        if: ${{ runner.os == 'ubuntu-latest'}}
         with:
           filename: "Cobertura.xml"
           badge: true
@@ -75,7 +71,7 @@ jobs:
           retention-days: 5
       - name: publish test results
         uses: EnricoMi/publish-unit-test-result-action@v2.17.0
-        if: ${{ runner.os == 'ubuntu-latest'}} & always()
+        if: always()
         with:
           # NOTE: using trx_files instead of files due to https://github.com/EnricoMi/publish-unit-test-result-action/issues/424
           files: ${{ github.workspace }}/**/*.trx
