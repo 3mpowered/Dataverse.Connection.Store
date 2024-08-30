@@ -9,6 +9,9 @@ jobs:
     uses: 3mpowered/Github.Action.Workflows/.github/workflows/build.yml@main
   test:
     needs: build
+    permissions:
+      pull-requests: write
+      checks: write
     uses: 3mpowered/Github.Action.Workflows/.github/workflows/test.yml@main
   release:
     needs: test
